@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaggio in Italia · May 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream: #F5F0E8;
+            --parchment: #EDE6D6;
+            --gold: #C4A35A;
+            --brown: #5C4033;
+            --brown-dark: #3E2723;
+            --brown-light: #8B7355;
+            --terracotta: #C4713B;
+            --olive: #6B7B3A;
+            --wine: #722F37;
+            --sky: #6B8BA4;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background: var(--cream);
+            color: var(--brown-dark);
+            line-height: 1.7;
+            position: relative;
+        }
+
+        /* ===== Oil Painting Texture Overlay ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* ===== Canvas brush stroke decorations ===== */
+        .painting-decor {
+            position: absolute;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== Florentine Ornamental Border Pattern ===== */
+        .florentine-border {
+            border: 2px solid transparent;
+            border-image: repeating-linear-gradient(
+                90deg,
+                var(--gold) 0px, var(--gold) 8px,
+                transparent 8px, transparent 12px,
+                var(--brown-light) 12px, var(--brown-light) 14px,
+                transparent 14px, transparent 20px
+            ) 2;
+        }
+
+        /* ===== Renaissance Corner Ornament ===== */
+        .ren-ornament {
+            position: relative;
+        }
+        .ren-ornament::before,
+        .ren-ornament::after {
+            content: '❧';
+            position: absolute;
+            font-size: 1.6rem;
+            color: var(--gold);
+            opacity: 0.35;
+        }
+        .ren-ornament::before { top: -8px; left: -20px; }
+        .ren-ornament::after { top: -8px; right: -20px; transform: scaleX(-1); }
+
+        /* ===== Italian Icon System (SVG-based) ===== */
+        .it-icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+        .it-icon-lg {
+            width: 48px;
+            height: 48px;
+            margin-right: 0;
+        }
+        .it-icon-title {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* ===== Fleur-de-lis SVG ===== */
+        .fleur-de-lis {
+            display: inline-block;
+            color: var(--gold);
+            opacity: 0.5;
+        }
+
+        /* ===== Nav ===== */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(196, 163, 90, 0.2);
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 14px 20px;
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--brown-light);
+            text-decoration: none;
+            cursor: pointer;
+            padding-bottom: 4px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--brown-dark);
+            border-bottom: 1.5px solid var(--gold);
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            background: var(--brown-dark);
+            color: var(--cream);
+            padding: 120px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; right: -50%; bottom: -50%;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(196, 163, 90, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(114, 47, 55, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(107, 123, 58, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Oil painting brush strokes in hero */
+        .hero-brush {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.07;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--cream);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        .hero-ornament {
+            font-size: 1.2rem;
+            letter-spacing: 20px;
+            color: var(--gold);
+            margin-bottom: 24px;
+            opacity: 0.4;
+        }
+
+        .hero-italian-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .hero h1::after {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 16px auto 0;
+        }
+
+        .hero-italic {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--gold);
+            letter-spacing: 5px;
+            margin-bottom: 28px;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            flex-wrap: wrap;
+            font-size: 0.82rem;
+            color: rgba(245, 240, 232, 0.55);
+            letter-spacing: 1px;
+        }
+
+        /* ===== Travelers Section ===== */
+        .travelers-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+            min-height: 32px;
+        }
+
+        .traveler-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 240, 232, 0.12);
+            border: 1px solid rgba(196, 163, 90, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: rgba(245, 240, 232, 0.75);
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+            cursor: default;
+        }
+
+        .traveler-chip:hover {
+            background: rgba(245, 240, 232, 0.18);
+            border-color: var(--gold);
+        }
+
+        .traveler-chip .chip-name {
+            font-weight: 500;
+        }
+
+        .traveler-chip .chip-email {
+            font-size: 0.6rem;
+            opacity: 0.6;
+        }
+
+        .traveler-chip .chip-del {
+            cursor: pointer;
+            opacity: 0;
+            font-size: 0.7rem;
+            margin-left: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .traveler-chip:hover .chip-del {
+            opacity: 0.7;
+        }
+
+        .traveler-chip .chip-del:hover {
+            opacity: 1;
+        }
+
+        .add-traveler-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px dashed rgba(196, 163, 90, 0.4);
+            background: transparent;
+            color: var(--gold);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-traveler-btn:hover {
+            border-color: var(--gold);
+            background: rgba(196, 163, 90, 0.1);
+        }
+
+        /* Traveler modal */
+        .traveler-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(62, 39, 35, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .traveler-modal-overlay.active {
+            display: flex;
+        }
+
+        .traveler-modal {
+            background: var(--cream);
+            border: 1px solid rgba(196, 163, 90, 0.3);
+            padding: 30px;
+            border-radius: 8px;
+            min-width: 340px;
+            box-shadow: 0 20px 60px rgba(62, 39, 35, 0.3);
+        }
+
+        .traveler-modal h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--brown-dark);
+            margin-bottom: 20px;
+        }
+
+        .traveler-modal label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brown-light);
+            margin-bottom: 6px;
+        }
+
+        .traveler-modal input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid rgba(196, 163, 90, 0.25);
+            background: var(--parchment);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            color: var(--brown-dark);
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .traveler-modal input:focus {
+            border-color: var(--gold);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 6px;
+        }
+
+        .modal-btn {
+            padding: 8px 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid rgba(196, 163, 90, 0.3);
+            background: transparent;
+            color: var(--brown-light);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .modal-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .modal-btn.primary {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: var(--brown-light);
+            border-color: var(--brown-light);
+        }
+
+        /* ===== Decorative Section Dividers ===== */
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 35px 20px;
+            color: var(--gold);
+            font-size: 0.7rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.4;
+        }
+
+        .divider-icon {
+            font-size: 1.4rem;
+            opacity: 0.6;
+        }
+
+        /* ===== Fleur-de-lis watermark pattern ===== */
+        .watermark-strip {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 20px;
+            overflow: hidden;
+            opacity: 0.04;
+            font-size: 2rem;
+            color: var(--brown-dark);
+        }
+
+        /* ===== Pre-list Section ===== */
+        .prelist-section {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px 20px 60px;
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--brown-dark);
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        /* Single table style */
+        .prelist-table-wrap {
+            border: 1px solid rgba(196, 163, 90, 0.2);
+        }
+
+        .prelist-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .prelist-table thead th {
+            background: var(--brown-dark);
+            color: var(--cream);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 12px 14px;
+            text-align: left;
+        }
+
+        .prelist-table thead th:last-child {
+            text-align: center;
+            width: 60px;
+        }
+
+        .prelist-table tbody tr {
+            border-bottom: 1px solid rgba(196, 163, 90, 0.1);
+            transition: background 0.2s;
+        }
+
+        .prelist-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .prelist-table tbody tr:hover {
+            background: rgba(196, 163, 90, 0.05);
+        }
+
+        .prelist-table tbody tr.row-checked {
+            opacity: 0.45;
+        }
+
+        .prelist-table tbody tr.row-checked td.item-text {
+            text-decoration: line-through;
+        }
+
+        .prelist-table td {
+            padding: 11px 14px;
+            color: var(--brown);
+            vertical-align: middle;
+        }
+
+        .prelist-table td.cat-tag {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brown-light);
+            white-space: nowrap;
+            width: 90px;
+        }
+
+        .prelist-table td.item-text {
+            line-height: 1.5;
+        }
+
+        .prelist-table td.td-check {
+            text-align: center;
+            width: 60px;
+        }
+
+        .check-box {
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid var(--brown-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .check-box:hover {
+            border-color: var(--gold);
+        }
+
+        .check-box.checked {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: white;
+        }
+
+        /* Add row */
+        .add-row-form {
+            display: flex;
+            gap: 0;
+            border-top: 1px solid rgba(196, 163, 90, 0.2);
+        }
+
+        .add-row-form select {
+            background: var(--parchment);
+            border: none;
+            padding: 10px 8px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brown-light);
+            cursor: pointer;
+            width: 90px;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .add-row-form input {
+            flex: 1;
+            border: none;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            color: var(--brown);
+            background: var(--cream);
+            outline: none;
+        }
+
+        .add-row-form input::placeholder {
+            color: rgba(139, 115, 85, 0.4);
+        }
+
+        .add-row-btn {
+            background: var(--gold);
+            border: none;
+            padding: 10px 16px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-row-btn:hover {
+            background: var(--brown-light);
+        }
+
+        .prelist-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding: 0 4px;
+        }
+
+        .prelist-progress {
+            font-size: 0.8rem;
+            color: var(--brown-light);
+            letter-spacing: 1px;
+        }
+
+        .prelist-progress .count {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .prelist-note {
+            font-size: 0.72rem;
+            color: var(--brown-light);
+            opacity: 0.6;
+            max-width: 320px;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        /* Delete button */
+        .del-btn {
+            background: none;
+            border: none;
+            color: var(--brown-light);
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s, color 0.2s;
+            padding: 2px 4px;
+            margin-left: 6px;
+        }
+
+        .prelist-table tbody tr:hover .del-btn {
+            opacity: 0.6;
+        }
+
+        .del-btn:hover {
+            color: var(--wine);
+            opacity: 1 !important;
+        }
+
+        /* Export/Import buttons */
+        .prelist-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid rgba(196, 163, 90, 0.3);
+            padding: 5px 14px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brown-light);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .action-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+
+        /* @mention tag in prelist */
+        .mention-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: rgba(196, 163, 90, 0.15);
+            border: 1px solid rgba(196, 163, 90, 0.3);
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-left: 6px;
+            vertical-align: middle;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mention-tag:hover {
+            background: rgba(196, 163, 90, 0.25);
+        }
+
+        /* Assign dropdown */
+        .assign-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--cream);
+            border: 1px solid rgba(196, 163, 90, 0.3);
+            border-radius: 6px;
+            box-shadow: 0 8px 24px rgba(62, 39, 35, 0.15);
+            z-index: 100;
+            min-width: 160px;
+            padding: 4px 0;
+        }
+
+        .assign-dropdown.active {
+            display: block;
+        }
+
+        .assign-option {
+            padding: 8px 14px;
+            font-size: 0.78rem;
+            color: var(--brown);
+            cursor: pointer;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .assign-option:hover {
+            background: rgba(196, 163, 90, 0.1);
+        }
+
+        .assign-option .ao-name {
+            font-weight: 500;
+        }
+
+        .assign-option .ao-email {
+            font-size: 0.62rem;
+            color: var(--brown-light);
+            opacity: 0.7;
+        }
+
+        .assign-option .ao-check {
+            margin-left: auto;
+            color: var(--gold);
+            font-size: 0.7rem;
+        }
+
+        /* Email reminder button */
+        .email-remind-btn {
+            background: transparent;
+            border: 1px solid rgba(107, 139, 164, 0.3);
+            padding: 5px 14px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--sky);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .email-remind-btn:hover {
+            border-color: var(--sky);
+            background: rgba(107, 139, 164, 0.08);
+        }
+
+        /* Item text cell relative positioning for dropdown */
+        .item-text-cell {
+            position: relative;
+        }
+
+        .item-label {
+            cursor: text;
+        }
+
+        .edit-input {
+            border: 1px solid var(--gold);
+            background: var(--cream);
+            padding: 2px 6px;
+            font-size: 0.85rem;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            color: var(--brown-dark);
+            outline: none;
+            width: calc(100% - 80px);
+        }
+
+        /* ===== Route Section ===== */
+        .route-section {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px 20px 40px;
+        }
+
+        .route-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 30px;
+        }
+
+        .route-city {
+            background: var(--parchment);
+            padding: 14px 22px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--brown);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .route-city:hover, .route-city.active {
+            background: var(--brown-dark);
+            color: var(--cream);
+        }
+
+        .route-city .city-cn {
+            display: block;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 400;
+            opacity: 0.7;
+            margin-top: 1px;
+        }
+
+        .route-arrow {
+            color: var(--gold);
+            font-size: 1rem;
+            opacity: 0.5;
+        }
+
+        /* ===== Journal Section ===== */
+        .journal-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 20px 20px 60px;
+        }
+
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 30px;
+            background: var(--parchment);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .toggle-btn {
+            padding: 10px 24px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--brown-light);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: var(--brown-dark);
+            color: var(--cream);
+        }
+
+        /* Day Slider */
+        .day-slider-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .day-slider {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 4px 0;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+        }
+
+        .day-slider::-webkit-scrollbar { display: none; }
+
+        .day-slider-btn {
+            flex-shrink: 0;
+            width: 78px;
+            padding: 14px 8px;
+            text-align: center;
+            background: var(--parchment);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            position: relative;
+        }
+
+        .day-slider-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+
+        .day-slider-btn.active::after {
+            width: 100%;
+        }
+
+        .day-slider-btn:hover {
+            background: rgba(196, 163, 90, 0.2);
+        }
+
+        .day-slider-btn.active {
+            background: var(--brown-dark);
+            color: var(--cream);
+        }
+
+        .slider-icon {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .slider-day-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .slider-day-date {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .slider-day-city {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* Calendar View */
+        .calendar-view { display: none; }
+        .calendar-view.active { display: block; }
+        .slider-view.active { display: block; }
+        .slider-view { display: none; }
+
+        .calendar-grid {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: rgba(196, 163, 90, 0.1);
+            border: 1px solid rgba(196, 163, 90, 0.15);
+        }
+
+        .cal-header {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brown-light);
+            background: var(--parchment);
+        }
+
+        .cal-day {
+            padding: 16px 8px;
+            text-align: center;
+            background: var(--cream);
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 85px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            position: relative;
+        }
+
+        .cal-day:hover {
+            background: var(--parchment);
+        }
+
+        .cal-day.active {
+            background: var(--brown-dark);
+            color: var(--cream);
+        }
+
+        .cal-day.outside {
+            opacity: 0.2;
+            cursor: default;
+        }
+
+        .cal-date {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .cal-icon {
+            font-size: 1rem;
+        }
+
+        .cal-city {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .cal-city-cn {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.55rem;
+            opacity: 0.6;
+        }
+
+        .cal-month-label {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            color: var(--brown-light);
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        /* Day Content */
+        .day-content-area {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            background: var(--cream);
+            border-top: 3px solid var(--gold);
+            animation: fadeIn 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Oil painting texture behind content */
+        .day-content-area::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(196, 163, 90, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-content-sidebar {
+            background: var(--brown-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 10px;
+            color: var(--cream);
+            position: relative;
+        }
+
+        /* Decorative fleur-de-lis on sidebar */
+        .day-content-sidebar::after {
+            content: '⚜';
+            position: absolute;
+            bottom: 12px;
+            font-size: 0.8rem;
+            color: var(--gold);
+            opacity: 0.3;
+        }
+
+        .sidebar-icon {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        .day-content-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .day-content-label {
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 8px;
+        }
+
+        .day-content-body {
+            padding: 30px 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-date {
+            font-size: 0.72rem;
+            color: var(--brown-light);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .content-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brown-dark);
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .content-subtitle {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.8rem;
+            color: var(--brown-light);
+            margin-bottom: 20px;
+        }
+
+        .content-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .content-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.88rem;
+            color: var(--brown);
+            line-height: 1.6;
+        }
+
+        .content-item-icon {
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .content-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--gold);
+            margin-top: 9px;
+            flex-shrink: 0;
+        }
+
+        .content-dot.hl {
+            background: var(--terracotta);
+            width: 7px;
+            height: 7px;
+            margin-top: 8px;
+        }
+
+        .content-item.hl {
+            color: var(--brown-dark);
+            font-weight: 500;
+        }
+
+        .content-transport {
+            margin-top: 18px;
+            padding: 10px 16px;
+            background: rgba(196, 163, 90, 0.08);
+            font-size: 0.76rem;
+            color: var(--brown-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .content-tag {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 4px 14px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            opacity: 0.6;
+        }
+
+        /* ===== Painting-style accent blocks ===== */
+        .painting-accent {
+            height: 4px;
+            background: linear-gradient(90deg,
+                var(--wine) 0%, var(--wine) 16.6%,
+                var(--olive) 16.6%, var(--olive) 33.3%,
+                var(--terracotta) 33.3%, var(--terracotta) 50%,
+                var(--gold) 50%, var(--gold) 66.6%,
+                var(--sky) 66.6%, var(--sky) 83.3%,
+                var(--brown-light) 83.3%, var(--brown-light) 100%
+            );
+            opacity: 0.6;
+        }
+
+        /* ===== Quote ===== */
+        .quote-section {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px 20px 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            opacity: 0.25;
+            line-height: 1;
+            margin-bottom: -20px;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--brown);
+            line-height: 1.9;
+            font-style: italic;
+        }
+
+        .quote-author {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: var(--brown-light);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* ===== Stats ===== */
+        .stats {
+            background: var(--brown-dark);
+            padding: 70px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(196, 163, 90, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .stats-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            opacity: 0.6;
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: rgba(245, 240, 232, 0.4);
+            letter-spacing: 4px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            text-align: center;
+            padding: 35px 20px 55px;
+            font-size: 0.7rem;
+            color: var(--brown-light);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .footer-ornament {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+            color: var(--gold);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; letter-spacing: 3px; }
+            .top-nav { gap: 20px; padding: 10px 15px; }
+            .nav-link { font-size: 0.65rem; letter-spacing: 2px; }
+            .day-content-area { grid-template-columns: 70px 1fr; }
+            .day-content-body { padding: 20px 18px; }
+            .content-title { font-size: 1.2rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+            .route-city { padding: 8px 14px; font-size: 0.8rem; }
+            .cal-day { padding: 10px 4px; min-height: 60px; }
+            .cal-date { font-size: 1rem; }
+            .day-slider-btn { width: 65px; padding: 10px 6px; }
+            .slider-day-num { font-size: 1.1rem; }
+            .hero-italian-icons { gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav class="top-nav">
+        <a class="nav-link active" onclick="scrollToSection('hero')">Overview</a>
+        <a class="nav-link" onclick="scrollToSection('prelist')">Pre-list</a>
+        <a class="nav-link" onclick="scrollToSection('route')">Route</a>
+        <a class="nav-link" onclick="scrollToSection('journal')">Journal</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-brush" style="width:400px;height:400px;background:var(--wine);top:-100px;left:-100px;"></div>
+        <div class="hero-brush" style="width:300px;height:300px;background:var(--gold);bottom:-50px;right:-50px;"></div>
+        <div class="hero-brush" style="width:250px;height:250px;background:var(--olive);top:50%;left:60%;"></div>
+        <div class="hero-ornament">⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜</div>
+        <div class="hero-italian-icons">
+            <span title="Fleur-de-lis">⚜</span>
+            <span title="Pizza">🍕</span>
+            <span title="Trevi Fountain">⛲</span>
+            <span title="Gondola">🛶</span>
+            <span title="Wine">🍷</span>
+            <span title="Colosseum">🏛</span>
+            <span title="Olive">🫒</span>
+        </div>
+        <h1>VIAGGIO IN ITALIA</h1>
+        <div class="hero-italic">Rinascimento · Maggio MMXXV</div>
+        <div class="hero-meta">
+            <span>⚜ May 1 — 11, 2025</span>
+            <span>🍷 Travelers × <span id="travelerCount">0</span></span>
+        </div>
+        <div class="travelers-bar" id="travelersBar"></div>
+    </section>
+
+    <!-- Italian flag color bar -->
+    <div class="painting-accent"></div>
+
+    <!-- Pre-list -->
+    <section class="prelist-section" id="prelist">
+        <div class="divider"><span class="divider-icon">⚜</span></div>
+        <div class="section-label">Before the Trip</div>
+        <div class="section-title">The Pre-list</div>
+
+        <div class="prelist-table-wrap">
+            <table class="prelist-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>✓</th>
+                    </tr>
+                </thead>
+                <tbody id="prelistBody"></tbody>
+            </table>
+            <div class="add-row-form">
+                <select id="addCat">
+                    <option value="Docs">Docs</option>
+                    <option value="Apps">Apps</option>
+                    <option value="Packing">Packing</option>
+                    <option value="Booked">Booked</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="text" id="addInput" placeholder="Add a new item..." onkeydown="if(event.key==='Enter')addPrelistItem()">
+                <button class="add-row-btn" onclick="addPrelistItem()">+</button>
+            </div>
+        </div>
+
+        <div class="prelist-footer">
+            <div class="prelist-progress">
+                <span class="count" id="checkCount">0</span> / <span id="totalCount">0</span> completed
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <div class="prelist-note">💡 Vatican & Borghese require advance booking. Museum dress code: shoulders & knees covered.</div>
+                <div class="prelist-actions">
+                    <button class="email-remind-btn" onclick="sendReminders()">📧 Send Reminders</button>
+                    <button class="action-btn" onclick="if(confirm('Reset all data to default?')){resetData()}" style="color:var(--wine);border-color:rgba(114,47,55,0.3);">Reset</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Watermark strip -->
+    <div class="watermark-strip">
+        ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜
+    </div>
+
+    <!-- Route -->
+    <section class="route-section" id="route">
+        <div class="divider"><span class="divider-icon">⛪</span></div>
+        <div class="section-label">The Route</div>
+        <div class="section-title">Milano · Verona · Venezia · Firenze · Toscana · Roma</div>
+        <div class="route-flow">
+            <div class="route-city" data-day="1">🏛️ Milano<span class="city-cn">米兰</span></div>
+            <span class="route-arrow">❧</span>
+            <div class="route-city" data-day="2">💕 Verona<span class="city-cn">维罗纳</span></div>
+            <span class="route-arrow">❧</span>
+            <div class="route-city" data-day="3">🛶 Venezia<span class="city-cn">威尼斯</span></div>
+            <span class="route-arrow">❧</span>
+            <div class="route-city" data-day="4">🎨 Firenze<span class="city-cn">佛罗伦萨</span></div>
+            <span class="route-arrow">❧</span>
+            <div class="route-city" data-day="6">🍇 Toscana<span class="city-cn">托斯卡纳</span></div>
+            <span class="route-arrow">❧</span>
+            <div class="route-city" data-day="8">⛩️ Roma<span class="city-cn">罗马</span></div>
+        </div>
+    </section>
+
+    <!-- Italian flag color bar -->
+    <div class="painting-accent"></div>
+
+    <!-- Journal -->
+    <section class="journal-section" id="journal">
+        <div class="divider"><span class="divider-icon">🫒</span></div>
+        <div class="section-label">Travel Journal</div>
+        <div class="section-title">Il diario di viaggio</div>
+
+        <!-- View Toggle -->
+        <div class="view-toggle">
+            <button class="toggle-btn active" onclick="switchView('slider')">By Day</button>
+            <button class="toggle-btn" onclick="switchView('calendar')">Calendar</button>
+        </div>
+
+        <!-- Slider View -->
+        <div class="slider-view active" id="sliderView">
+            <div class="day-slider" id="daySlider"></div>
+        </div>
+
+        <!-- Calendar View -->
+        <div class="calendar-view" id="calendarView"></div>
+
+        <!-- Day Content -->
+        <div id="dayContent"></div>
+    </section>
+
+    <!-- Watermark strip -->
+    <div class="watermark-strip">
+        ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜ ❧ ⚜
+    </div>
+
+    <!-- Quote -->
+    <section class="quote-section">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">
+            A journey of a thousand miles<br>
+            begins with a single step,<br>
+            and ends with a thousand memories.
+        </p>
+        <p class="quote-author">Grazie, Italia · 谢谢，意大利</p>
+    </section>
+
+    <!-- Italian flag color bar -->
+    <div class="painting-accent"></div>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div>
+                <div class="stat-icon">📅</div>
+                <div class="stat-value">11</div>
+                <div class="stat-label">Days</div>
+            </div>
+            <div>
+                <div class="stat-icon">🏛</div>
+                <div class="stat-value">6</div>
+                <div class="stat-label">Cities</div>
+            </div>
+            <div>
+                <div class="stat-icon">🍷</div>
+                <div class="stat-value">6</div>
+                <div class="stat-label">Travelers</div>
+            </div>
+            <div>
+                <div class="stat-icon">⚜</div>
+                <div class="stat-value">∞</div>
+                <div class="stat-label">Memories</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-ornament">⚜ ❧ ⚜</div>
+        Viaggio in Italia · May MMXXV
+        <br><br>
+        <span style="opacity:0.5; letter-spacing:2px;">披萨 🍕 · 许愿池 ⛲ · 鸢尾花 ⚜ · 贡多拉 🛶 · 葡萄酒 🍷 · 橄榄 🫒</span>
+    </footer>
+
+    <script>
+        // ===== DATA with icons =====
+        const days = [
+            {
+                num: 1, date: 'May 1', weekday: 'Thu', city: 'Milano', cityCn: '米兰',
+                title: 'Arrivo a Milano', tag: 'Departure',
+                icon: '🏛️',
+                items: [
+                    { hl: true, text: 'Malpensa Airport — touch down in Italia', icon: '✈️' },
+                    { hl: false, text: 'Check-in & settle in', icon: '🏨' },
+                    { hl: true, text: 'First authentic Italian pizza — La Bella Vita begins', icon: '🍕' }
+                ],
+                transport: null
+            },
+            {
+                num: 2, date: 'May 2', weekday: 'Fri', city: 'Milano → Verona', cityCn: '米兰 → 维罗纳',
+                title: 'The Fashion Capital & City of Love', tag: null,
+                icon: '💕',
+                items: [
+                    { hl: true, text: 'Duomo di Milano — the Gothic crown of the city', icon: '⛪' },
+                    { hl: false, text: 'Galleria Vittorio Emanuele II — walk under the glass vaults', icon: '🛍️' },
+                    { hl: true, text: 'Evening train to Verona', icon: '🚂' },
+                    { hl: false, text: 'Casa di Giulietta — under the moonlit balcony of love', icon: '🌹' }
+                ],
+                transport: '🚂 Milano → Verona · ~1.5h'
+            },
+            {
+                num: 3, date: 'May 3', weekday: 'Sat', city: 'Venezia', cityCn: '威尼斯',
+                title: 'Floating City', tag: 'Venice',
+                icon: '🛶',
+                items: [
+                    { hl: true, text: 'Gondola ride — drifting through the water labyrinth', icon: '🛶' },
+                    { hl: false, text: 'Piazza San Marco — the heart of the Serenissima', icon: '🕊️' },
+                    { hl: true, text: 'Ponte di Rialto — cross the Grand Canal', icon: '🌉' },
+                    { hl: false, text: 'Ponte dei Sospiri — sighs above the water', icon: '💨' }
+                ],
+                transport: '🚂 Verona ↔ Venezia · day trip, ~1h each way'
+            },
+            {
+                num: 4, date: 'May 4', weekday: 'Sun', city: 'Firenze', cityCn: '佛罗伦萨',
+                title: 'Into the Renaissance', tag: null,
+                icon: '🎨',
+                items: [
+                    { hl: true, text: 'Train southbound — heading into Renaissance territory', icon: '🚂' },
+                    { hl: false, text: 'Airbnb check-in — 20 min walk to the old town', icon: '🏠' },
+                    { hl: true, text: 'Giardino di Boboli — stroll through Medici gardens', icon: '🌿' },
+                    { hl: false, text: 'Piazzale Michelangelo — sunset over Firenze', icon: '🌅' }
+                ],
+                transport: '🚂 Verona → Firenze · ~2h'
+            },
+            {
+                num: 5, date: 'May 5', weekday: 'Mon', city: 'Firenze', cityCn: '佛罗伦萨',
+                title: 'The Renaissance Heart', tag: 'Art',
+                icon: '🖌️',
+                items: [
+                    { hl: true, text: "Cattedrale di Santa Maria del Fiore — Brunelleschi's dome", icon: '⛪' },
+                    { hl: false, text: "Libreria dell'Opera — the cathedral bookshop with Roman arches", icon: '📖' },
+                    { hl: true, text: 'Galleria degli Uffizi — Botticelli\'s "La Nascita di Venere"', icon: '🖼️' },
+                    { hl: false, text: 'Caravaggio, Leonardo, Raphael — a date with masters', icon: '👑' },
+                    { hl: true, text: 'Galleria dell\'Accademia — Michelangelo\'s "David"', icon: '🗿' }
+                ],
+                transport: null
+            },
+            {
+                num: 6, date: 'May 6', weekday: 'Tue', city: 'Toscana', cityCn: '托斯卡纳',
+                title: 'On the Road', tag: 'Road Trip',
+                icon: '🚗',
+                items: [
+                    { hl: true, text: 'Pick up the car — Toscana road trip begins', icon: '🚗' },
+                    { hl: false, text: 'Siena — the medieval city on the hill', icon: '🏰' },
+                    { hl: true, text: '"Come tradurre l\'amore" filming location', icon: '🎬' },
+                    { hl: false, text: 'Cypress trees & vineyards as far as the eye can see', icon: '🌲' }
+                ],
+                transport: '🚗 Firenze → Siena · ~1h drive'
+            },
+            {
+                num: 7, date: 'May 7', weekday: 'Wed', city: 'Toscana', cityCn: '托斯卡纳',
+                title: 'La Vita Lenta', tag: 'Slow Travel',
+                icon: '🍷',
+                items: [
+                    { hl: true, text: 'Cypress-lined road — every frame a postcard', icon: '📸' },
+                    { hl: false, text: 'Wine tasting — Chianti Classico region', icon: '🍷' },
+                    { hl: true, text: 'Trattoria in the hills — handmade pasta & truffles', icon: '🍝' },
+                    { hl: false, text: 'Doing absolutely nothing — and loving every minute', icon: '😌' }
+                ],
+                transport: null
+            },
+            {
+                num: 8, date: 'May 8', weekday: 'Thu', city: 'Roma', cityCn: '罗马',
+                title: 'All Roads Lead to Roma', tag: null,
+                icon: '⛲',
+                items: [
+                    { hl: true, text: 'Drive south — heading to the Eternal City', icon: '🚗' },
+                    { hl: false, text: 'Piazza di Spagna — the Spanish Steps', icon: ' via⓪' },
+                    { hl: true, text: 'Fontana di Trevi — coin in the fountain, promise to return', icon: '⛲' },
+                    { hl: false, text: 'Evening passeggiata — walk through Roma', icon: '🌙' }
+                ],
+                transport: '🚗 Toscana → Roma · ~2.5h drive'
+            },
+            {
+                num: 9, date: 'May 9', weekday: 'Fri', city: 'Vaticano', cityCn: '梵蒂冈',
+                title: 'The Holy See', tag: 'Pilgrimage',
+                icon: '⛪',
+                items: [
+                    { hl: true, text: 'Basilica di San Pietro — stand beneath the dome', icon: '⛪' },
+                    { hl: false, text: 'Musei Vaticani — walk through centuries of art', icon: '🏛️' },
+                    { hl: true, text: "Cappella Sistina — Michelangelo's \"The Creation of Adam\"", icon: '🧑‍🎨' },
+                    { hl: false, text: '"Il Giudizio Universale" — standing in awe, looking up', icon: '✨' }
+                ],
+                transport: null
+            },
+            {
+                num: 10, date: 'May 10', weekday: 'Sat', city: 'Roma', cityCn: '罗马',
+                title: 'Hidden Treasures', tag: 'Treasure',
+                icon: '🖼️',
+                items: [
+                    { hl: true, text: 'Galleria Borghese — Bernini at his finest', icon: '🖼️' },
+                    { hl: false, text: '"Apollo and Daphne" — marble caught mid-transformation', icon: '大理石' },
+                    { hl: true, text: '"The Rape of Proserpina" — you can almost feel the flesh', icon: '✋' },
+                    { hl: false, text: "Villa Borghese gardens — Roma's green oasis", icon: '🌳' }
+                ],
+                transport: null
+            },
+            {
+                num: 11, date: 'May 11', weekday: 'Sun', city: 'Roma', cityCn: '罗马',
+                title: 'Arrivederci', tag: 'Arrivederci',
+                icon: '✈️',
+                items: [
+                    { hl: true, text: 'Last shopping — take a piece of Italia home', icon: '🛍️' },
+                    { hl: false, text: "One final stroll — Roma's streets at golden hour", icon: '🌇' },
+                    { hl: true, text: 'To the airport — Arrivederci, Italia. Ci vediamo.', icon: '⚜' }
+                ],
+                transport: null
+            }
+        ];
+
+        // ===== LOCAL STORAGE =====
+        const STORAGE_KEY = 'italy_trip_data';
+        const defaultTravelers = [
+            { name: 'Traveler 1', email: '' },
+        ];
+        const defaultPrelistData = [
+            { cat: 'Docs', text: 'Passport (valid 6+ months beyond travel dates)', checked: false, assignee: -1 },
+            { cat: 'Docs', text: 'Schengen Visa', checked: false, assignee: -1 },
+            { cat: 'Docs', text: 'Travel insurance', checked: false, assignee: -1 },
+            { cat: 'Docs', text: 'Flight tickets (printed & digital copies)', checked: false, assignee: -1 },
+            { cat: 'Docs', text: 'Accommodation confirmations', checked: false, assignee: -1 },
+            { cat: 'Docs', text: 'Train tickets (Trenitalia / Italo)', checked: false, assignee: -1 },
+            { cat: 'Docs', text: 'Car rental confirmation (Toscana leg)', checked: false, assignee: -1 },
+            { cat: 'Apps', text: 'Google Maps — offline maps for all 6 cities', checked: false, assignee: -1 },
+            { cat: 'Apps', text: 'Trenitalia app — train tickets & schedule', checked: false, assignee: -1 },
+            { cat: 'Apps', text: 'Google Translate — Italian pack downloaded', checked: false, assignee: -1 },
+            { cat: 'Apps', text: 'Uber — for airport transfers', checked: false, assignee: -1 },
+            { cat: 'Apps', text: 'European plug adapter (Type C / F / L)', checked: false, assignee: -1 },
+            { cat: 'Packing', text: 'Comfortable walking shoes (20k+ steps/day)', checked: false, assignee: -1 },
+            { cat: 'Packing', text: 'Light jacket / layers (May weather: 15-25°C)', checked: false, assignee: -1 },
+            { cat: 'Packing', text: 'Sunglasses & sunscreen', checked: false, assignee: -1 },
+            { cat: 'Packing', text: 'Portable charger & cables', checked: false, assignee: -1 },
+            { cat: 'Packing', text: 'Reusable water bottle', checked: false, assignee: -1 },
+            { cat: 'Packing', text: 'Small daypack for city wandering', checked: false, assignee: -1 },
+            { cat: 'Booked', text: 'Galleria degli Uffizi tickets (Day 5)', checked: false, assignee: -1 },
+            { cat: 'Booked', text: "Galleria dell'Accademia tickets (Day 5)", checked: false, assignee: -1 },
+            { cat: 'Booked', text: 'Musei Vaticani & Cappella Sistina tickets (Day 9)', checked: false, assignee: -1 },
+            { cat: 'Booked', text: 'Galleria Borghese tickets (Day 10)', checked: false, assignee: -1 },
+            { cat: 'Booked', text: 'Basilica di San Pietro dome climb tickets', checked: false, assignee: -1 },
+        ];
+
+        function loadData() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return null;
+                return JSON.parse(raw);
+            } catch(e) {
+                return null;
+            }
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ travelers, prelistData }));
+            } catch(e) { /* quota exceeded etc */ }
+        }
+
+        function resetData() {
+            localStorage.removeItem(STORAGE_KEY);
+            travelers.length = 0;
+            defaultTravelers.forEach(t => travelers.push({ ...t }));
+            prelistData.length = 0;
+            defaultPrelistData.forEach(d => prelistData.push({ ...d }));
+            renderTravelers();
+            renderPrelist();
+        }
+
+        // ===== TRAVELERS =====
+        const travelers = [];
+        const prelistData = [];
+
+        // Load from localStorage or use defaults
+        (function init() {
+            const saved = loadData();
+            if (saved) {
+                if (saved.travelers && Array.isArray(saved.travelers)) {
+                    saved.travelers.forEach(t => travelers.push(t));
+                } else {
+                    defaultTravelers.forEach(t => travelers.push({ ...t }));
+                }
+                if (saved.prelistData && Array.isArray(saved.prelistData)) {
+                    saved.prelistData.forEach(d => prelistData.push({ ...d, assignee: d.assignee ?? -1 }));
+                } else {
+                    defaultPrelistData.forEach(d => prelistData.push({ ...d }));
+                }
+            } else {
+                defaultTravelers.forEach(t => travelers.push({ ...t }));
+                defaultPrelistData.forEach(d => prelistData.push({ ...d }));
+            }
+        })();
+
+        function renderTravelers() {
+            const bar = document.getElementById('travelersBar');
+            document.getElementById('travelerCount').textContent = travelers.length;
+            bar.innerHTML = travelers.map((t, i) => `
+                <div class="traveler-chip">
+                    <span class="chip-name">${t.name}</span>
+                    ${t.email ? `<span class="chip-email">${t.email}</span>` : ''}
+                    <span class="chip-del" onclick="removeTraveler(${i})" title="Remove">✕</span>
+                </div>
+            `).join('') + `<button class="add-traveler-btn" onclick="openTravelerModal()" title="Add traveler">+</button>`;
+        }
+
+        function openTravelerModal() {
+            document.getElementById('tName').value = '';
+            document.getElementById('tEmail').value = '';
+            document.getElementById('travelerModal').classList.add('active');
+            document.getElementById('tName').focus();
+        }
+
+        function closeTravelerModal() {
+            document.getElementById('travelerModal').classList.remove('active');
+        }
+
+        function saveTraveler() {
+            const name = document.getElementById('tName').value.trim();
+            const email = document.getElementById('tEmail').value.trim();
+            if (!name) return;
+            travelers.push({ name, email });
+            renderTravelers();
+            closeTravelerModal();
+            renderPrelist();
+            saveData();
+        }
+
+        function removeTraveler(idx) {
+            travelers.splice(idx, 1);
+            prelistData.forEach(item => {
+                item.assignee = item.assignee === idx ? -1 : (item.assignee > idx ? item.assignee - 1 : item.assignee);
+            });
+            renderTravelers();
+            renderPrelist();
+            saveData();
+        }
+
+        // ===== PRE-LIST RENDERING =====
+
+        let activeAssignDropdown = -1;
+
+        let completedCollapsed = true;
+
+        function renderPrelist() {
+            const tbody = document.getElementById('prelistBody');
+            const unchecked = prelistData.map((item, i) => ({ ...item, _origIdx: i })).filter(d => !d.checked);
+            const checked = prelistData.map((item, i) => ({ ...item, _origIdx: i })).filter(d => d.checked);
+
+            let html = unchecked.map(item => buildRow(item)).join('');
+
+            if (checked.length > 0) {
+                html += `<tr class="completed-toggle-row"><td colspan="3" onclick="toggleCompleted()" style="cursor:pointer;text-align:center;padding:10px 14px;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--brown-light);opacity:0.5;border-top:1px solid rgba(196,163,90,0.15);">✓ ${checked.length} completed ${completedCollapsed ? '— tap to show' : '— tap to hide'}</td></tr>`;
+                if (!completedCollapsed) {
+                    html += checked.map(item => buildRow(item)).join('');
+                }
+            }
+
+            tbody.innerHTML = html;
+            updateProgress();
+        }
+
+        function buildRow(item) {
+            const i = item._origIdx;
+            const assigneeTag = item.assignee >= 0 && travelers[item.assignee]
+                ? `<span class="mention-tag" onclick="toggleAssignDropdown(event, ${i})">@${travelers[item.assignee].name}</span>`
+                : `<span class="mention-tag" style="opacity:0.4;border-style:dashed;" onclick="toggleAssignDropdown(event, ${i})">+ assign</span>`;
+            return `
+                <tr class="${item.checked ? 'row-checked' : ''}" data-idx="${i}">
+                    <td class="cat-tag">${item.cat}</td>
+                    <td class="item-text item-text-cell">
+                        <span class="item-label" ondblclick="startEdit(${i})" title="Double-click to edit">${item.text}</span>${assigneeTag}
+                        <button class="del-btn" onclick="deletePrelistItem(${i})" title="Delete">✕</button>
+                        <div class="assign-dropdown" id="assignDD_${i}">
+                            ${travelers.map((t, ti) => `
+                                <div class="assign-option" onclick="assignItem(${i}, ${ti})">
+                                    <span class="ao-name">@${t.name}</span>
+                                    ${t.email ? `<span class="ao-email">${t.email}</span>` : ''}
+                                    ${item.assignee === ti ? '<span class="ao-check">✓</span>' : ''}
+                                </div>
+                            `).join('')}
+                            ${travelers.length === 0 ? '<div style="padding:10px 14px;font-size:0.75rem;color:var(--brown-light);opacity:0.6;">No travelers yet</div>' : ''}
+                        </div>
+                    </td>
+                    <td class="td-check"><div class="check-box ${item.checked ? 'checked' : ''}" onclick="togglePrelistItem(${i})">${item.checked ? '✓' : ''}</div></td>
+                </tr>
+            `;
+        }
+
+        function startEdit(idx) {
+            const row = document.querySelector(`tr[data-idx="${idx}"]`);
+            const label = row.querySelector('.item-label');
+            const oldText = prelistData[idx].text;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = oldText;
+            input.className = 'edit-input';
+            input.onblur = () => finishEdit(idx, input);
+            input.onkeydown = (e) => {
+                if (e.key === 'Enter') { input.blur(); }
+                if (e.key === 'Escape') { input.value = oldText; input.blur(); }
+            };
+            label.replaceWith(input);
+            input.focus();
+            input.select();
+        }
+
+        function finishEdit(idx, input) {
+            const newText = input.value.trim();
+            if (newText && newText !== prelistData[idx].text) {
+                prelistData[idx].text = newText;
+                saveData();
+            }
+            renderPrelist();
+        }
+
+        function toggleCompleted() {
+            completedCollapsed = !completedCollapsed;
+            renderPrelist();
+        }
+
+        function toggleAssignDropdown(event, idx) {
+            event.stopPropagation();
+            const dd = document.getElementById('assignDD_' + idx);
+            const wasActive = dd.classList.contains('active');
+            // Close all
+            document.querySelectorAll('.assign-dropdown').forEach(d => d.classList.remove('active'));
+            if (!wasActive) {
+                dd.classList.add('active');
+                activeAssignDropdown = idx;
+            } else {
+                activeAssignDropdown = -1;
+            }
+        }
+
+        function assignItem(itemIdx, travelerIdx) {
+            prelistData[itemIdx].assignee = travelerIdx;
+            document.querySelectorAll('.assign-dropdown').forEach(d => d.classList.remove('active'));
+            renderPrelist();
+            saveData();
+        }
+
+        // Close dropdown on outside click
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.assign-dropdown').forEach(d => d.classList.remove('active'));
+            activeAssignDropdown = -1;
+        });
+
+        function togglePrelistItem(idx) {
+            prelistData[idx].checked = !prelistData[idx].checked;
+            renderPrelist();
+            saveData();
+        }
+
+        function deletePrelistItem(idx) {
+            prelistData.splice(idx, 1);
+            renderPrelist();
+            saveData();
+        }
+
+        function addPrelistItem() {
+            const input = document.getElementById('addInput');
+            const cat = document.getElementById('addCat');
+            const text = input.value.trim();
+            if (!text) return;
+            prelistData.push({ cat: cat.value, text: text, checked: false, assignee: -1 });
+            input.value = '';
+            renderPrelist();
+            saveData();
+            // scroll to bottom of table
+            const tbody = document.getElementById('prelistBody');
+            tbody.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function updateProgress() {
+            const total = prelistData.length;
+            const checked = prelistData.filter(i => i.checked).length;
+            document.getElementById('checkCount').textContent = checked;
+            document.getElementById('totalCount').textContent = total;
+        }
+
+        function sendReminders() {
+            // Group unchecked items by assignee
+            const byAssignee = {};
+            prelistData.forEach((item, i) => {
+                if (item.checked) return;
+                const key = item.assignee >= 0 ? item.assignee : 'unassigned';
+                if (!byAssignee[key]) byAssignee[key] = [];
+                byAssignee[key].push(item);
+            });
+
+            const entries = Object.entries(byAssignee);
+            if (entries.length === 0) {
+                alert('All items are checked! Nothing to remind.');
+                return;
+            }
+
+            // Build individual mailto for each assignee with email
+            let opened = 0;
+            entries.forEach(([key, items]) => {
+                if (key === 'unassigned') return;
+                const t = travelers[parseInt(key)];
+                if (!t || !t.email) return;
+                const subject = encodeURIComponent('🇮🇹 Italy Trip — Your To-Do Reminders');
+                const body = encodeURIComponent(
+                    `Ciao ${t.name}!\n\nHere are your pending items for the Italy trip:\n\n` +
+                    items.map(item => `[ ] ${item.text}`).join('\n') +
+                    `\n\nBuon viaggio! ✈️`
+                );
+                window.open(`mailto:${t.email}?subject=${subject}&body=${body}`, '_blank');
+                opened++;
+            });
+
+            if (opened === 0) {
+                alert('No travelers with email addresses found.\nPlease add email to traveler profiles first.');
+            }
+        }
+
+        // ===== DAY SLIDER =====
+        let currentDay = 0;
+
+        function buildSlider() {
+            const slider = document.getElementById('daySlider');
+            slider.innerHTML = days.map((d, i) => `
+                <button class="day-slider-btn ${i === 0 ? 'active' : ''}" onclick="selectDay(${i})">
+                    <div class="slider-icon">${d.icon}</div>
+                    <div class="slider-day-num">${String(d.num).padStart(2, '0')}</div>
+                    <div class="slider-day-date">${d.date} ${d.weekday}</div>
+                    <div class="slider-day-city">${d.city.split('→')[0].trim().split(' ')[0]}</div>
+                </button>
+            `).join('');
+        }
+
+        // ===== CALENDAR =====
+        function buildCalendar() {
+            const cal = document.getElementById('calendarView');
+            const headers = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            let html = '<div class="cal-month-label">M A Y · 2025</div>';
+            html += '<div class="calendar-grid">';
+            headers.forEach(h => html += `<div class="cal-header">${h}</div>`);
+
+            for (let i = 0; i < 3; i++) {
+                html += '<div class="cal-day outside"><div class="cal-date"></div></div>';
+            }
+
+            for (let i = 1; i <= 31; i++) {
+                const dayData = days.find(d => d.num === i);
+                if (dayData) {
+                    const shortCity = dayData.city.split('→')[0].trim().split(' ')[0];
+                    html += `<div class="cal-day" onclick="selectDay(${dayData.num - 1})" data-calday="${dayData.num - 1}">
+                        <div class="cal-date">${i}</div>
+                        <div class="cal-icon">${dayData.icon}</div>
+                        <div class="cal-city">${shortCity}</div>
+                        <div class="cal-city-cn">${dayData.cityCn.split('→')[0].trim()}</div>
+                    </div>`;
+                } else {
+                    html += `<div class="cal-day outside"><div class="cal-date">${i}</div></div>`;
+                }
+            }
+
+            html += '</div>';
+            cal.innerHTML = html;
+        }
+
+        // ===== SELECT DAY =====
+        function selectDay(index) {
+            currentDay = index;
+            const d = days[index];
+
+            // Update slider
+            document.querySelectorAll('.day-slider-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+
+            // Scroll slider
+            const activeBtn = document.querySelectorAll('.day-slider-btn')[index];
+            if (activeBtn) {
+                activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+
+            // Update calendar
+            document.querySelectorAll('.cal-day').forEach(el => {
+                const ci = parseInt(el.dataset.calday);
+                el.classList.toggle('active', ci === index);
+            });
+
+            // Update route
+            document.querySelectorAll('.route-city').forEach(el => {
+                const rd = parseInt(el.dataset.day);
+                const isActive = rd && Math.abs(rd - d.num) < 2;
+                el.classList.toggle('active', isActive);
+            });
+
+            // Render content with icons
+            const itemsHtml = d.items.map(it => `
+                <div class="content-item ${it.hl ? 'hl' : ''}">
+                    <div class="content-item-icon">${it.icon}</div>
+                    <span>${it.text}</span>
+                </div>
+            `).join('');
+
+            const transportHtml = d.transport
+                ? `<div class="content-transport">${d.transport}</div>`
+                : '';
+
+            const tagHtml = d.tag
+                ? `<div class="content-tag">${d.tag}</div>`
+                : '';
+
+            document.getElementById('dayContent').innerHTML = `
+                <div class="day-content-area">
+                    <div class="day-content-sidebar">
+                        <div class="sidebar-icon">${d.icon}</div>
+                        <div class="day-content-num">${String(d.num).padStart(2, '0')}</div>
+                        <div class="day-content-label">Giorno</div>
+                    </div>
+                    <div class="day-content-body">
+                        <div class="content-date">${d.date} · ${d.weekday}</div>
+                        <div class="content-title">${d.title}</div>
+                        <div class="content-subtitle">${d.cityCn}</div>
+                        <div class="content-items">${itemsHtml}</div>
+                        ${transportHtml}
+                        ${tagHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===== VIEW SWITCH =====
+        function switchView(view) {
+            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('sliderView').classList.toggle('active', view === 'slider');
+            document.getElementById('calendarView').classList.toggle('active', view === 'calendar');
+        }
+
+        // ===== NAV =====
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                const offset = 60;
+                const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+        }
+
+        // ===== NAV HIGHLIGHT =====
+        window.addEventListener('scroll', () => {
+            const sections = ['hero', 'prelist', 'route', 'journal'];
+            const scrollY = window.scrollY + 100;
+            let current = 'hero';
+
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.offsetTop <= scrollY) current = id;
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.toggle('active', link.getAttribute('onclick').includes(current));
+            });
+        });
+
+        // ===== INIT =====
+        renderTravelers();
+        renderPrelist();
+        buildSlider();
+        buildCalendar();
+        selectDay(0);
+    </script>
+
+    <!-- Traveler Add Modal -->
+    <div class="traveler-modal-overlay" id="travelerModal">
+        <div class="traveler-modal">
+            <h3>Add Traveler</h3>
+            <label for="tName">Name</label>
+            <input type="text" id="tName" placeholder="e.g. Luca">
+            <label for="tEmail">Email</label>
+            <input type="email" id="tEmail" placeholder="e.g. luca@example.com">
+            <div class="modal-actions">
+                <button class="modal-btn" onclick="closeTravelerModal()">Cancel</button>
+                <button class="modal-btn primary" onclick="saveTraveler()">Add</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
