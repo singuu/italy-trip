@@ -693,6 +693,124 @@
             color: var(--gold);
         }
 
+        /* Sync status */
+        .sync-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            font-size: 0.65rem;
+            color: var(--brown-light);
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+        .sync-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--brown-light);
+            opacity: 0.4;
+            transition: all 0.3s;
+        }
+        .sync-dot.ok { background: #6db56d; opacity: 1; }
+        .sync-dot.syncing { background: var(--gold); opacity: 1; animation: pulse 1s infinite; }
+        .sync-dot.err { background: var(--wine); opacity: 1; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .sync-btn {
+            background: transparent;
+            border: 1px solid rgba(196,163,90,0.2);
+            padding: 3px 10px;
+            font-size: 0.6rem;
+            color: var(--brown-light);
+            cursor: pointer;
+            border-radius: 3px;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+        .sync-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+        /* Token modal */
+        .token-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        .token-modal-overlay.open { display: flex; }
+        .token-modal {
+            background: var(--cream);
+            border: 1px solid rgba(196,163,90,0.3);
+            border-radius: 8px;
+            padding: 28px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .token-modal h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--brown);
+            margin: 0 0 12px;
+        }
+        .token-modal p {
+            font-size: 0.78rem;
+            color: var(--brown-light);
+            line-height: 1.6;
+            margin: 0 0 16px;
+        }
+        .token-modal input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 12px;
+            border: 1px solid rgba(196,163,90,0.3);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: 'Inter', monospace;
+            background: #fff;
+            color: var(--brown);
+            margin-bottom: 12px;
+        }
+        .token-modal-btns {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        .token-modal-btns button {
+            padding: 6px 16px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+        .token-modal-btns .btn-save {
+            background: var(--brown-dark);
+            color: var(--cream);
+            border: none;
+        }
+        .token-modal-btns .btn-save:hover { background: var(--brown); }
+        .token-modal-btns .btn-cancel {
+            background: transparent;
+            color: var(--brown-light);
+            border: 1px solid rgba(196,163,90,0.3);
+        }
+        .token-modal-btns .btn-remove {
+            background: transparent;
+            color: var(--wine);
+            border: 1px solid rgba(114,47,55,0.3);
+            margin-right: auto;
+        }
+
 
         /* @mention tag in prelist */
         .mention-tag {
@@ -1442,6 +1560,12 @@
             </div>
         </div>
 
+        <div class="sync-bar">
+            <span class="sync-dot" id="syncDot"></span>
+            <span id="syncStatus">checking...</span>
+            <button class="sync-btn" onclick="openTokenModal()">⚙ Token</button>
+            <button class="sync-btn" onclick="cloudPull()">↻ Pull</button>
+        </div>
         <div class="prelist-footer">
             <div class="prelist-progress">
                 <span class="count" id="checkCount">0</span> / <span id="totalCount">0</span> completed
@@ -1455,6 +1579,20 @@
             </div>
         </div>
     </section>
+
+    <!-- Token Modal -->
+    <div class="token-modal-overlay" id="tokenModal">
+        <div class="token-modal">
+            <h3>GitHub Sync Token</h3>
+            <p>Enter a GitHub Personal Access Token with <strong>repo</strong> scope to enable cloud sync. This allows all devices to share the same data.</p>
+            <input type="text" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+            <div class="token-modal-btns">
+                <button class="btn-remove" id="btnRemoveToken" onclick="removeToken()">Remove</button>
+                <button class="btn-cancel" onclick="closeTokenModal()">Cancel</button>
+                <button class="btn-save" onclick="saveToken()">Save</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Watermark strip -->
     <div class="watermark-strip">
@@ -1699,6 +1837,114 @@
 
         // ===== LOCAL STORAGE =====
         const STORAGE_KEY = 'italy_trip_data';
+        const TOKEN_KEY = 'italy_trip_gh_token';
+
+        // ===== GITHUB SYNC =====
+        const SYNC_REPO = 'singuu/italy-trip';
+        const SYNC_ISSUE = 1;
+        const SYNC_API = `https://api.github.com/repos/${SYNC_REPO}/issues/${SYNC_ISSUE}`;
+
+        function getGHToken() {
+            try { return localStorage.getItem(TOKEN_KEY) || ''; } catch(e) { return ''; }
+        }
+
+        function setSyncStatus(status, text) {
+            const dot = document.getElementById('syncDot');
+            const label = document.getElementById('syncStatus');
+            if (!dot || !label) return;
+            dot.className = 'sync-dot ' + (status || '');
+            label.textContent = text || '';
+        }
+
+        async function cloudPull() {
+            setSyncStatus('syncing', 'pulling...');
+            try {
+                const headers = { 'Accept': 'application/vnd.github+json' };
+                const token = getGHToken();
+                if (token) headers['Authorization'] = 'token ' + token;
+                const res = await fetch(SYNC_API, { headers });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const issue = await res.json();
+                const body = issue.body;
+                // Extract JSON from issue body (might have leading/trailing whitespace)
+                const jsonStr = body.trim();
+                const cloud = JSON.parse(jsonStr);
+                if (cloud.travelers && Array.isArray(cloud.travelers) && cloud.prelistData && Array.isArray(cloud.prelistData)) {
+                    // Replace local data with cloud data
+                    travelers.length = 0;
+                    cloud.travelers.forEach(t => travelers.push(t));
+                    prelistData.length = 0;
+                    cloud.prelistData.forEach(d => prelistData.push({ ...d, assignee: d.assignee ?? -1 }));
+                    // Save to localStorage
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({ travelers, prelistData }));
+                    renderTravelers();
+                    renderPrelist();
+                    setSyncStatus('ok', token ? 'synced' : 'read-only');
+                    return true;
+                } else {
+                    throw new Error('Invalid data format');
+                }
+            } catch(e) {
+                console.error('Cloud pull failed:', e);
+                setSyncStatus('err', 'pull failed');
+                return false;
+            }
+        }
+
+        async function cloudPush() {
+            const token = getGHToken();
+            if (!token) return; // No token = read-only
+            setSyncStatus('syncing', 'pushing...');
+            try {
+                const res = await fetch(SYNC_API, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': 'token ' + token,
+                        'Accept': 'application/vnd.github+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ body: JSON.stringify({ travelers, prelistData }) })
+                });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                setSyncStatus('ok', 'synced');
+            } catch(e) {
+                console.error('Cloud push failed:', e);
+                setSyncStatus('err', 'push failed');
+            }
+        }
+
+        function openTokenModal() {
+            const modal = document.getElementById('tokenModal');
+            const input = document.getElementById('tokenInput');
+            const removeBtn = document.getElementById('btnRemoveToken');
+            const token = getGHToken();
+            input.value = token;
+            removeBtn.style.display = token ? '' : 'none';
+            modal.classList.add('open');
+        }
+
+        function closeTokenModal() {
+            document.getElementById('tokenModal').classList.remove('open');
+        }
+
+        function saveToken() {
+            const input = document.getElementById('tokenInput');
+            const token = input.value.trim();
+            if (token) {
+                localStorage.setItem(TOKEN_KEY, token);
+            }
+            closeTokenModal();
+            // Try push to verify token works
+            cloudPush();
+        }
+
+        function removeToken() {
+            localStorage.removeItem(TOKEN_KEY);
+            document.getElementById('tokenInput').value = '';
+            closeTokenModal();
+            setSyncStatus('ok', 'read-only');
+        }
+
         const defaultTravelers = [
             { name: 'Traveler 1', email: '' },
         ];
@@ -1742,6 +1988,8 @@
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify({ travelers, prelistData }));
             } catch(e) { /* quota exceeded etc */ }
+            // Push to cloud in background
+            cloudPush();
         }
 
         function resetData() {
@@ -2153,6 +2401,16 @@
         buildSlider();
         buildCalendar();
         selectDay(0);
+
+        // Auto-pull cloud data on load
+        (async function autoSync() {
+            setSyncStatus('syncing', 'loading...');
+            const pulled = await cloudPull();
+            if (!pulled) {
+                // Cloud pull failed, use local data (already loaded above)
+                setSyncStatus('ok', getGHToken() ? 'offline' : 'read-only');
+            }
+        })();
     </script>
 
     <!-- Traveler Add Modal -->
